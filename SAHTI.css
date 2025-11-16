@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahti - Alimentation Marocaine Santé</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #c8e6c9;
+            padding: 15px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            gap: 0;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 18px;
+            padding: 15px 25px;
+            transition: all 0.3s;
+            border-left: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        nav a:first-child {
+            border-left: none;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: rgba(0,0,0,0.05);
+            color: #006233;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), 
+                        linear-gradient(135deg, #006233 0%, #00854d 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 50px;
+        }
+
+        .hero-badge {
+            background: rgba(212, 175, 55, 0.9);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .hero .highlight {
+            color: #d4af37;
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: 24px;
+            max-width: 900px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #c41e3a, #9c1530);
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(196, 30, 58, 0.6);
+        }
+
+        .features {
+            background-color: #fff;
+            padding: 80px 50px;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 48px;
+            color: #c41e3a;
+            margin-bottom: 20px;
+        }
+
+        .features-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #fff 0%, #f9f6f0 100%);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 26px;
+            color: #c41e3a;
+            margin-bottom: 15px;
+        }
+
+        .auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1f35 50%, #0a0a0a 100%);
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(139, 69, 19, 0.3);
+            max-width: 450px;
+            width: 100%;
+            border: 3px solid #D2691E;
+        }
+
+        .auth-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .auth-subtitle {
+            color: #ccc;
+            font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid #D2691E;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(210, 105, 30, 0.5);
+        }
+
+        .member-area {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1f35 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .member-header {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 25px;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #D2691E;
+        }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .stat-label {
+            color: #ccc;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #006233 0%, #00854d 100%);
+            padding: 60px 50px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            background-color: white;
+            padding: 30px 50px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            border: 2px solid #00695c;
+            background: white;
+            color: #00695c;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #00695c;
+            color: white;
+        }
+
+        .meals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 50px;
+        }
+
+        .meal-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .meal-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .meal-image {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+        }
+
+        .meal-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #00695c;
+        }
+
+        .meal-content {
+            padding: 25px;
+        }
+
+        .meal-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .meal-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00695c;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            color: white;
+            padding: 40px 50px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            
+            nav a {
+                border-left: none;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .meals-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <nav>
+            <a onclick="showPage('accueil')" class="active">Accueil</a>
+            <a onclick="showPage('apropos')">À propos</a>
+            <a onclick="showPage('espaces')">Espaces membres</a>
+            <a onclick="showPage('suggestions')">Suggestions de repas</a>
+        </nav>
+    </header>
+
+    <div id="accueil" class="page active">
+        <section class="hero">
+            <div class="hero-badge">🇲🇦 CUISINE MAROCAINE ÉQUILIBRÉE</div>
+            <h1>
+                Redécouvrez les saveurs du <span class="highlight">Maroc</span><br>
+                dans une version <span class="highlight">saine et équilibrée</span>
+            </h1>
+            <p>
+                Couscous, tagines, pastilla... Tous vos plats préférés adaptés à vos objectifs nutritionnels.
+            </p>
+            <button class="btn-primary" onclick="showPage('suggestions')">
+                Découvrir nos plats
+            </button>
+        </section>
+    </div>
+
+    <div id="apropos" class="page">
+        <section class="features">
+            <h2>Pourquoi choisir Sahti ?</h2>
+            <p class="features-subtitle">
+                Nous combinons l'authenticité de la cuisine marocaine avec les principes de la nutrition moderne
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🍽</div>
+                    <h3>Plats Traditionnels</h3>
+                    <p>Des recettes marocaines authentiques revisitées pour être plus légères et nutritives.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖</div>
+                    <h3>Équilibre Nutritionnel</h3>
+                    <p>Chaque plat est analysé et équilibré pour respecter vos macros.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Coaching Personnalisé</h3>
+                    <p>Un accompagnement sur mesure pour atteindre vos objectifs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>Ingrédients Locaux</h3>
+                    <p>Des produits frais, de saison et issus du terroir marocain.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Suivi Digital</h3>
+                    <p>Accédez à vos plans de repas et suivez vos progrès.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Résultats Garantis</h3>
+                    <p>Une méthode éprouvée qui a aidé des centaines de Marocains.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="espaces" class="page">
+        <div id="loginSection" class="auth-page">
+            <div class="auth-container">
+                <div class="auth-title">🏥 SAHTI</div>
+                <div class="auth-subtitle">Votre santé, notre priorité</div>
+                
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="votre.email@exemple.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">🔐 Se Connecter</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="memberDashboard" class="member-area" style="display: none;">
+            <div class="member-header">
+                <div class="logo-text">🏥 SAHTI</div>
+                <div class="user-info">
+                    <div id="userName" style="font-weight: bold;">Utilisateur</div>
+                    <button class="logout-btn" onclick="handleLogout()">Déconnexion</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🏋</div>
+                    <div class="stat-value">36</div>
+                    <div class="stat-label">Jours d'Entraînement</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">💪</div>
+                    <div class="stat-value">+5.2 kg</div>
+                    <div class="stat-label">Prise de Masse</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🍽</div>
+                    <div class="stat-value">3,150</div>
+                    <div class="stat-label">Calories Aujourd'hui</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value">165g</div>
+                    <div class="stat-label">Protéines Aujourd'hui</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="suggestions" class="page">
+        <div class="page-header">
+            <h1>Suggestions de Repas</h1>
+            <p>Découvrez nos plats marocains adaptés à vos objectifs nutritionnels</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterMeals('tous')">Tous les plats</button>
+            <button class="filter-btn" onclick="filterMeals('petit-dejeuner')">Petit-déjeuner</button>
+            <button class="filter-btn" onclick="filterMeals('dejeuner')">Déjeuner</button>
+            <button class="filter-btn" onclick="filterMeals('diner')">Dîner</button>
+        </div>
+
+        <div class="meals-grid">
+            <div class="meal-card" data-category="petit-dejeuner">
+                <div class="meal-image" style="background: linear-gradient(135deg, #8d6e63, #6d4c41);">
+                    🥣
+                    <span class="meal-badge">250 kcal</span>
+                </div>
+                <div class="meal-content">
+                    <h3 class="meal-title">Bissara Protéinée</h3>
+                    <p>Soupe de fèves traditionnelle enrichie en protéines.</p>
+                    <div class="meal-info">
+                        <div class="info-item">
+                            <span class="info-value">18g</span>
+                            <span class="info-label">Protéines</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">32g</span>
+                            <span class="info-label">Glucides</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">6g</span>
+                            <span class="info-label">Lipides</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-card" data-category="dejeuner">
+                <div class="meal-image" style="background: linear-gradient(135deg, #ffa726, #f57c00);">
+                    🥘
+                    <span class="meal-badge">450 kcal</span>
+                </div>
+                <div class="meal-content">
+                    <h3 class="meal-title">Couscous Complet</h3>
+                    <p>Semoule complète et légumes de saison.</p>
+                    <div class="meal-info">
+                        <div class="info-item">
+                            <span class="info-value">22g</span>
+                            <span class="info-label">Protéines</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">68g</span>
+                            <span class="info-label">Glucides</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">8g</span>
+                            <span class="info-label">Lipides</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-card" data-category="dejeuner">
+                <div class="meal-image" style="background: linear-gradient(135deg, #ef5350, #c62828);">
+                    🍲
+                    <span class="meal-badge">580 kcal</span>
+                </div>
+                <div class="meal-content">
+                    <h3 class="meal-title">Tagine de Poulet</h3>
+                    <p>Poulet fermier, pruneaux et amandes grillées.</p>
+                    <div class="meal-info">
+                        <div class="info-item">
+                            <span class="info-value">42g</span>
+                            <span class="info-label">Protéines</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">45g</span>
+                            <span class="info-label">Glucides</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">22g</span>
+                            <span class="info-label">Lipides</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-card" data-category="diner">
+                <div class="meal-image" style="background: linear-gradient(135deg, #66bb6a, #388e3c);">
+                    🥣
+                    <span class="meal-badge">320 kcal</span>
+                </div>
+                <div class="meal-content">
+                    <h3 class="meal-title">Harira Légère</h3>
+                    <p>Soupe traditionnelle aux lentilles et pois chiches.</p>
+                    <div class="meal-info">
+                        <div class="info-item">
+                            <span class="info-value">16g</span>
+                            <span class="info-label">Protéines</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">48g</span>
+                            <span class="info-label">Glucides</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-value">5g</span>
+                            <span class="info-label">Lipides</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-size: 18px; margin-bottom: 10px;">© 2023 Sahti - Alimentation Marocaine Santé</p>
+        <p style="opacity: 0.8;">Transformez votre santé avec des repas marocains équilibrés</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            pages.forEach(page => page.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        const users = {};
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            users[email] = { email, password };
+            
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('memberDashboard').style.display = 'block';
+            document.getElementById('userName').textContent = email.split('@')[0];
+            
+            alert('✅ Connexion réussie !');
+        }
+
+        function handleLogout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                document.getElementById('loginSection').style.display = 'flex';
+                document.getElementById('memberDashboard').style.display = 'none';
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+
+        function filterMeals(category) {
+            const cards = document.querySelectorAll('.meal-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'tous') {
+                    card.style.display = 'block';
+                } else {
+                    const categories = card.getAttribute('data-category');
+                    card.style.display = categories.includes(category) ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
